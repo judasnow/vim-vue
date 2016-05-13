@@ -25,7 +25,7 @@ if !exists("s:syntaxes")
     return syntaxes
   endfunction
 
-  let s:syntaxes = s:search_syntaxes('pug', 'coffee', 'stylus', 'sass', 'less')
+  let s:syntaxes = s:search_syntaxes('less')
 endif
 
 
@@ -33,44 +33,14 @@ syntax include @HTML syntax/html.vim
 unlet b:current_syntax
 syntax region template keepend start=/^<template>/ end=/^<\/template>/ contains=@HTML fold
 
-if s:syntaxes.pug
-  syntax include @PUG syntax/pug.vim
-  unlet b:current_syntax
-  syntax region pug keepend start=/<template lang="[^"]*pug[^"]*">/ end="</template>" contains=@PUG fold
-  syntax region pug keepend start=/<template lang="[^"]*jade[^"]*">/ end="</template>" contains=@PUG fold
-endif
-
 syntax include @JS syntax/javascript.vim
 unlet b:current_syntax
-syntax region script keepend start=/<script>/ end="</script>" contains=@JS fold
-
-if s:syntaxes.coffee
-  syntax include @COFFEE syntax/coffee.vim
-  unlet b:current_syntax
-  " Matchgroup seems to be necessary for coffee
-  syntax region coffee keepend matchgroup=Delimiter start="<script lang=\"coffee\">" end="</script>" contains=@COFFEE fold
-endif
-
-syntax include @CSS syntax/css.vim
-unlet b:current_syntax
-syntax region style keepend start=/<style\( \+scoped\)\?>/ end="</style>" contains=@CSS fold
-
-if s:syntaxes.stylus
-  syntax include @stylus syntax/stylus.vim
-  unlet b:current_syntax
-  syntax region stylus keepend start=/<style lang="[^"]*stylus[^"]*"\( \+scoped\)\?>/ end="</style>" contains=@stylus fold
-endif
-
-if s:syntaxes.sass
-  syntax include @sass syntax/sass.vim
-  unlet b:current_syntax
-  syntax region sass keepend start=/<style\( \+scoped\)\? lang="[^"]*sass[^"]*"\( \+scoped\)\?>/ end="</style>" contains=@sass fold
-endif
+syntax region script keepend start=/<script>/ end=\<^\/script>/ contains=@JS fold
 
 if s:syntaxes.less
   syntax include @less syntax/less.vim
   unlet b:current_syntax
-  syntax region less keepend matchgroup=PreProc start=/<style\%( \+scoped\)\? lang="less"\%( \+scoped\)\?>/ end="</style>" contains=@less fold
+  syntax region less keepend matchgroup=PreProc start=/<style\%( \+scoped\)\? lang="less"\%( \+scoped\)\?>/ end=/^<\/style>/ contains=@less fold
 endif
 
 let b:current_syntax = "vue"
