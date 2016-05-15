@@ -35,7 +35,7 @@ syntax region template keepend start=/^<template>/ end=/^<\/template>/ contains=
 
 syntax include @JS syntax/javascript.vim
 unlet b:current_syntax
-syntax region script keepend start=/<script>/ end=\<^\/script>/ contains=@JS fold
+syntax region script keepend start=/<script>/ end="</script>" contains=@JS fold
 
 if s:syntaxes.less
   syntax include @less syntax/less.vim
